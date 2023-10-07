@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkout Form</title>
+  <!-- Add here your CSS links -->
+</head>
+<body>
+  <p *ngIf="orderPlaced"> {{ orderMessage }} </p>
+
+  <div class="checkout-form" style="margin-left: 5%; margin-right: 5%;" *ngIf="!orderPlaced">
+
+    <h2>Checkout</h2>
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" formControlName="username" class="form-control" readonly>
+      </div>
+      <!-- <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control" readonly>
+      </div> -->
+      <div class="form-row">
+        <div class="col">
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" formControlName="lastName" class="form-control" readonly>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" formControlName="firstName" class="form-control" readonly>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="addressStreetNo">Street No</label>
+        <input type="text" id="addressStreetNo" formControlName="addressStreetNo" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="addressApartment">Apartment (if available)</label>
+        <input type="text" id="addressApartment" formControlName="addressApartment" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="addressCity">City</label>
+        <input type="text" id="addressCity" formControlName="addressCity" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="addressState">State</label>
+        <input type="text" id="addressState" formControlName="addressState" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="addressZip">Zip Code</label>
+        <input type="text" id="addressZip" formControlName="addressZip" class="form-control">
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="defaultAddress" formControlName="defaultAddress" class="form-check-input">
+        <label for="defaultAddress" class="form-check-label">Use as Default Address</label>
+      </div>
+      <div class="form-group">
+        <label for="cardType">Card Type</label>
+        <select id="cardType" formControlName="cardType" class="form-control">
+          <option value="mastercard">Mastercard</option>
+          <option value="visa">Visa</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="cardHolderName">Cardholder Name</label>
+        <input type="text" id="cardHolderName" formControlName="cardHolderName" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="cardNumber">Card Number</label>
+        <input type="text" id="cardNumber" formControlName="cardNumber" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="cvv">CVV</label>
+        <input type="text" id="cvv" formControlName="cvv" class="form-control">
+      </div>
+      <br>
+      <button type="submit" class="btn btn-primary" [disabled]="!checkoutForm.valid">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

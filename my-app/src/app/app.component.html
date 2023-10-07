@@ -1,0 +1,4 @@
+
+<app-header (hideProductList)="onHideProductList()"  (showProductList)="onShowProductList()" (userLoggedIn)="checkUserLoggedIn()"  (loginClicked)="onLoginClicked()"></app-header>
+<app-product-list *ngIf="showProductList"></app-product-list>
+<router-outlet></router-outlet>

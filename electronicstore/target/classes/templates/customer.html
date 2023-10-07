@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Personal Information</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px #ccc;
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+       .error-message {
+            color: red;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Edit Personal Information</h1>
+<form th:action="@{/user/update-customer}"  th:object="${user}" onsubmit="return validateForm()" method="post">
+    <div>
+        <label for="first-name">First Name:</label>
+        <input type="text" id="first-name" name="firstName" th:field="*{first_name}" th:value="${user.first_name}">
+    </div>
+    <div>
+        <label for="last-name">Last Name:</label>
+        <input type="text" id="last-name" name="lastName" th:field="*{last_name}" th:value="${user.last_name}">
+    </div>
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" th:field="*{username}" th:value="${user.username}">
+    </div>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email"  th:field="*{email}" th:value="${user.email}">
+    </div>
+
+    <div>
+        <label for="phone-number">Phone Number:</label>
+        <input type="tel" id="phone-number" name="phoneNumber"  th:field="*{phoneNumber}" th:value="${user.phoneNumber}" maxlength="10">
+    </div>
+
+    <div>
+        <label for="existing-password">Existing Password:</label>
+        <input type="password" id="existing-password" th:field="*{password}" name="existingPassword">
+    </div>
+    <div>
+        <label for="new-password">New Password:</label>
+        <input type="password" id="new-password"  name="newPassword">
+    </div>
+    <div>
+        <label for="confirm-new-password">Confirm New Password:</label>
+        <input type="password" id="confirm-new-password"  name="confirmNewPassword">
+    </div>
+    <input type="hidden" th:field="*{customer_id}" th:value="${user.customer_id}" />
+
+
+    <button type="submit">Save</button>
+    <p id="password-error-message" class="error-message"></p>
+    <p id="message" th:text="${message}"></p>
+
+</form>
+<p th:text="${message}"></p>
+
+<script>
+    function validateForm() {
+        var newPassword = document.getElementById("new-password").value;
+        var confirmNewPassword = document.getElementById("confirm-new-password").value;
+        var passwordErrorMessage = document.getElementById("password-error-message");
+
+        if (newPassword !== confirmNewPassword) {
+            passwordErrorMessage.innerText = "Passwords do not match!";
+            return false;
+        } else {
+            passwordErrorMessage.innerText = "";
+            return true;
+        }
+    }
+</script>
+</body>
+</html>

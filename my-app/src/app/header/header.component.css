@@ -1,0 +1,124 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+
+}
+
+.containerv2 {
+  width:100%;
+
+  height:15%;
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.logo img {
+  height: 50px;
+}
+
+.menu-icon img {
+  height: 24px;
+}
+
+.search-bar {
+  margin-left: 120px;
+  margin-right: 260px;
+  width:50%
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 24px;
+  font-size: 14px;
+  background-color: #f2f2f2;
+  transition: all 0.3s;
+  margin-left:20%
+}
+
+.search-bar input:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: #999999;
+}
+
+nav ul {
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+}
+
+nav ul li a img {
+  height: 24px;
+  margin-left: 5px;
+}
+#menu_icon{
+padding-top:5px; 
+ width:60px;
+ height:70px;
+ display: inline-block;
+
+
+}
+
+
+.cart-item-count {
+ 
+  background-color: red;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-size: 12px;
+}
+.dropdown-content{
+  position: absolute;
+  z-index: 1; 
+  margin-left:9%;
+  margin-top:9%;
+  display: none;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+.dropdown-content ul {
+  background-color: #f9f9f9; /* Light gray background */
+  list-style-type: none; /* Remove bullet points */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 4px; /* Rounded corners */
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Add shadow */
+  padding: 0; /* Remove padding */
+  width: 200px; /* Fixed width - adjust as needed */
+}
+
+.dropdown-content ul li {
+  padding: 10px 20px; /* Add padding */
+  cursor: pointer; /* Change cursor on hover */
+}
+
+.dropdown-content ul li:hover {
+  background-color: #e9e9e9; /* Change background on hover */
+}

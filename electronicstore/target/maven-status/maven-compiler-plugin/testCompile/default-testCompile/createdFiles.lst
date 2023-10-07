@@ -1,0 +1,5 @@
+com\triloc\webapp\electonicstore\controller\OrderControllerTest.class
+com\triloc\webapp\electonicstore\service\UserServiceTest.class
+com\triloc\webapp\electonicstore\controller\LoginControllerTest.class
+com\triloc\webapp\electonicstore\controller\UserControllerTest.class
+com\triloc\webapp\electonicstore\ElectonicstoreApplicationTests.class

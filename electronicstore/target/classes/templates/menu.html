@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Electronic Online Store</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      /* General styles */
+        {
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+
+      .menu2 {
+        align-items: center;
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .menu li {
+        margin-right: 20px;
+      }
+
+      .dropdown-menu {
+        display: none;
+        list-style: none;
+        margin: 0;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        font-size: 14px;
+        min-width: 160px;
+        text-align: left;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
+
+      .dropdown-menu li {
+        display: block;
+      }
+
+      header {
+        align-items: center;
+        background-color: green;
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+      }
+
+      .header-left {
+        align-items: center;
+        display: flex;
+      }
+
+      .logo {
+        color: #fff;
+        font-size: 1.5rem;
+        margin-right: 20px;
+        text-decoration: none;
+      }
+
+      .menu-icon {
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.5rem;
+        padding-top: 12px;
+      }
+
+      .menu {
+        display: none;
+        list-style: none;
+      }
+
+      .menu li {
+        margin-bottom: 10px;
+      }
+
+      .menu a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      .header-right {
+        align-items: center;
+        display: flex;
+      }
+
+      .search-form {
+        margin-right: 30em;
+        width:70%
+
+
+      }
+
+      .search-form input[type="text"] {
+        border: none;
+        border-radius: 20px;
+        font-size: 1rem;
+        padding: 5px 10px;
+        width:70%;
+
+      }
+
+      .search-form button[type="submit"] {
+        background-color: transparent;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.2rem;
+      }
+
+      .login,
+      .register,
+      .cart {
+        color: #fff;
+        font-size: 1.2rem;
+        margin-right: 20px;
+        text-decoration: none;
+      }
+
+      .cart i {
+        font-size: 1.5rem;
+      }
+
+      /* Main styles */
+      main {
+        margin: 20px;
+      }
+
+      .feature,
+      .deal {
+        margin-bottom: 30px;
+      }
+
+      .feature h2,
+      .deal h2 {
+        margin-bottom: 20px;
+      }
+
+      .product-container {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .product {
+        border: 1px solid #ccc;
+        flex-basis: calc(33.33% - 20px);
+        margin-bottom: 20px;
+        padding: 8px;
+        text-align: center;
+      }
+
+      .product img {
+        height: auto;
+        max-width: 100%;
+      }
+
+      .product h3 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+        margin-top: 10px;
+      }
+
+      .product p {
+        color: #666;
+        font-size: 1rem;
+        margin-bottom: 10px;
+      }
+
+      .product button {
+        background-color: green;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 5px 10px;
+        transition: all 0.3s ease;
+      }
+
+      .product button:hover {
+        background-color: #555;
+      }
+
+      /* Footer styles */
+      footer {
+        background-color: #eee;
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        flex-wrap: wrap;
+      }
+
+      .footer_info h4,
+      .my-account h4 {
+        margin-bottom: 10px;
+      }
+
+      .footer_info ul,
+      .my-account ul {
+        list-style: none;
+        margin-bottom: 10px;
+      }
+
+      .footer_info a,
+      .my-account a {
+        color: green;
+        font-size: 0.9rem;
+        text-decoration: none;
+      }
+
+      .footer_info a:hover,
+      .my-account a:hover {
+        text-decoration: underline;
+      }
+
+      .menu-container {
+        display: inline-block;
+        position: relative;
+      }
+
+      .menu-icon {
+        cursor: pointer;
+        font-size: 24px;
+        margin-right: 20px;
+      }
+
+      .menu2 {
+        align-items: center;
+        display: inline-block;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .dropdown {
+        display: inline-block;
+        position: relative;
+      }
+
+      .dropdown:hover .dropdown-menu {
+        display: block;
+      }
+
+      .discounted-price {
+        color: red;
+        text-decoration: line-through;
+      }
+
+      .success-message {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .shopping-cart {
+        position: relative;
+      }
+
+      .item-count {
+        background-color: red;
+        border-radius: 50%;
+        color: white;
+        font-size: 12px;
+        height: 20px;
+        padding: 2px;
+        position: absolute;
+        right: -15px;
+        text-align: center;
+        top: -5px;
+        width: 20px;
+      }
+      h3,h4{
+        color:green
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
+<header>
+    <div class="header-left">
+        <a href="#" class="logo">Electronic Store</a>
+        <div class="menu-container">
+            <div class="menu-icon" onclick="toggleDropdown()">&#9776;</div>
+            <ul class="menu2" id="menu2">
+                <li class="dropdown">
+                    <ul class="dropdown-menu" id="dropdown-menu">
+                        <!-- Thymeleaf code to dynamically generate list items -->
+                        <li th:each="category : ${categories}">
+                            <a th:href="@{/home(category_name=${category.category_name}, category_id=${category.category_id})}">
+                                <span th:text="${category.category_name}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="header-right">
+        <form class="search-form">
+            <input type="text" placeholder="Search">
+            <button type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </form>
+        <!-- Check if user is authenticated -->
+        <span th:if="${#httpServletRequest.userPrincipal != null}">
+								<span>
+									<a  onclick="toggleDropdown2()" class="dropbtn">
+										<span style="text-decoratio:none;color:white" th:text="${#httpServletRequest.userPrincipal.name}"></span>
+									</a>
+									<ul class="menu2" id="menu2">
+										<li class="dropdown">
+											<ul class="dropdown-menu" id="dropdown-menu2">
+												<!-- Thymeleaf code to dynamically generate list items -->
+                                                <!-- Thymeleaf code to dynamically generate list items -->
+												<li>
+													<a  th:href="@{/user/editPersonalInfo}">Personal Information</a>
+												</li>
+												<li>
+													<a  th:href="@{/user/orderHistory}">Order History</a>
+												</li>
+											</ul>
+										</ul>
+                                    </li>
+                                    </ul>
+							</span>
+							<a th:href="@{/logout}" class="login">Logout</a>
+						</span>
+        </span>
+        <!-- If user is not authenticated, display login and register links -->
+        <span th:if="${#httpServletRequest.userPrincipal == null}">
+						<a th:href="@{/login}" class="login">Login</a>
+						<a th:href="@{/register}" class="register">Register</a>
+					</span>
+        <!--        <a href="#" class="cart"><i id="cart-icon" class="fa fa-shopping-cart"></i></a>-->
+        <div class="shopping-cart" th:attr="onclick='location.href=\'' + @{/shoppingcart} + '\''" style="cursor: pointer;">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-icon" class="item-count" th:text="${session.cartList != null ? session.cartList.size() : 0}">0</span>
+        </div>
+    </div>
+</header>
+<main>
+    <div class = "success-message" th:if="${userName}" th:text="'Hello  ' + ${userName} + '. You registered successfully. Please Login'"></div>
+    <div th:block th:unless="${products}">
+        <section class="feature">
+            <h2>Hot Selling Products</h2>
+            <div class="product-container">
+                <div class="product">
+                    <img src="product1.jpg" alt="Product 1">
+                    <h3>Product 1</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus ex euismod, dictum quam a, euismod lorem. Aliquam id lacus a augue vestibulum venenatis.</p>
+                    <div class="price">
+                        <span class="original-price">$29.99</span>
+                        <span class="discounted-price">$24.99</span>
+                    </div>
+                    <button class="cart2">Add to Cart</button>
+                    <!--                <button class="btn-minus" th:attr="data-product-id=5">-</button>-->
+                    <!--                <span class="product-count" th:text="grgrgrrg">0</span>-->
+                    <!--                <button class="btn-plus">+</button></br>-->
+                    <!--                <button>Add to Cart</button>-->
+                </div>
+                <div class="product">
+                    <img src="product2.jpg" alt="Product 2">
+                    <h3>Product 2</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus ex euismod, dictum quam a, euismod lorem. Aliquam id lacus a augue vestibulum venenatis.</p>
+                    <div class="price">
+                        <span class="original-price">$29.99</span>
+                        <span class="discounted-price">$24.99</span>
+                    </div>
+                    <button class="cart2">Add to Cart</button>
+                </div>
+                <div class="product">
+                    <img src="product3.jpg" alt="Product 3">
+                    <h3>Product 3</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus ex euismod, dictum quam a, euismod lorem. Aliquam id lacus a augue vestibulum venenatis.</p>
+                    <div class="price">
+                        <span class="original-price">$29.99</span>
+                        <span class="discounted-price">$24.99</span>
+                    </div>
+                    <button class="cart2">Add to Cart</button>
+                </div>
+                <div class="product">
+                    <img src="product3.jpg" alt="Product 3">
+                    <h3>Product 3</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus ex euismod, dictum quam a, euismod lorem. Aliquam id lacus a augue vestibulum venenatis.</p>
+                    <div class="price">
+                        <span class="original-price">$29.99</span>
+                        <span class="discounted-price">$24.99</span>
+                    </div>
+                    <button class="cart2">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+        <section class="deal">
+            <h2>Today's Best Deals</h2>
+            <div class="product-container">
+                <div class="product">
+                    <img src="product4.jpg" alt="Product 4">
+                    <h3>Product 4</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus ex euismod, dictum quam a, euismod lorem. Aliquam id lacus a augue vestibulum venenatis.</p>
+                    <div class="price">
+                        <span class="original-price">$29.99</span>
+                        <span class="discounted-price">$24.99</span>
+                    </div>
+                    <button class="cart2">Add to Cart</button>
+                </div>
+                <div class="product">
+                    <img src="product5.jpg" alt="Product 5">
+                    <h3>Product 5</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus ex euismod, dictum quam a, euismod lorem. Aliquam id lacus a augue vestibulum venenatis.</p>
+                    <div class="price">
+                        <span class="original-price">$29.99</span>
+                        <span class="discounted-price">$24.99</span>
+                    </div>
+                    <button class="cart2">Add to Cart</button>
+                </div>
+                <div class="product">
+                    <img src="product5.jpg" alt="Product 5">
+                    <h3>Product 6</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus ex euismod, dictum quam a, euismod lorem. Aliquam id lacus a augue vestibulum venenatis.</p>
+                    <div class="price">
+                        <span class="original-price">$29.99</span>
+                        <span class="discounted-price">$24.99</span>
+                    </div>
+                    <button class="cart2">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div  th:if="${products}">
+        <section class="deal">
+            <h2 th:text="${category_name}">Product Name</h2>
+            <div class="product-container">
+                <div th:each="product : ${products}" class="product">
+                    <input type="hidden" name="productId" th:value="${product.product_id}" />
+                    <input type="hidden" name="price" th:value="${product.price}" />
+                    <input type="hidden" name="productName" th:value="${product.product_name}" />
+                    <img th:src="@{'/' + ${product.image}}" th:alt="${product.image}">
+                    <h3 th:text="${product.product_name}">Product Name</h3>
+                    <p th:text="${product.description}">Product Description</p>
+                    <div class="price">
+                        <span th:text="'$' + ${product.price}">Original Price</span>
+                        <!--                        <span th:text="'$' + ${product.discountedPrice}">Discounted Price</span>-->
+                    </div>
+                    <!--                    <button class="btn-minus" th:attr="data-product-id=${product.product_id}">-</button>-->
+                    <!--                    <span class="product-count" th:text="${session.shoppingCart != null ? session.shoppingCart.get(product.product_id) : 0}">0</span>-->
+                    <!--                    <button class="btn-plus" th:attr="data-product-id=${product.product_id}">+</button>-->
+                    <button class="cart2">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+<footer>
+    <div class="footer_info customer-service">
+        <h4>CUSTOMER SERVICE</h4>
+        <ul>
+            <li>
+                <a href="#">Help Center</a>
+            </li>
+            <li>
+                <a href="#">Track an Order</a>
+            </li>
+            <li>
+                <a href="#">Return an Item</a>
+            </li>
+            <li>
+                <a href="#">Return Policy</a>
+            </li>
+            <li>
+                <a href="#">Privacy & Security</a>
+            </li>
+            <li>
+                <a href="#">Feedback</a>
+            </li>
+        </ul>
+    </div>
+    <div class="footer_info my-account">
+        <h4>MY ACCOUNT</h4>
+        <ul>
+            <li>
+                <a href="#">Login/Register</a>
+            </li>
+            <li>
+                <a href="#">Order History</a>
+            </li>
+            <li>
+                <a href="#">Returns History</a>
+            </li>
+            <li>
+                <a href="#">Address Book</a>
+            </li>
+            <li>
+                <a href="#">Wish Lists</a>
+            </li>
+            <li>
+                <a href="#">My Build Lists</a>
+            </li>
+            <li>
+                <a href="#">Email Notifications</a>
+            </li>
+            <li>
+                <a href="#">Subscriptions Orders</a>
+            </li>
+            <li>
+                <a href="#">Auto Notifications</a>
+            </li>
+        </ul>
+    </div>
+    <div class="footer_info company-info">
+        <h4>COMPANY INFORMATION</h4>
+        <ul>
+            <li>
+                <a href="#">About Newegg</a>
+            </li>
+            <li>
+                <a href="#">Awards/Rankings</a>
+            </li>
+            <li>
+                <a href="#">Hours and Locations</a>
+            </li>
+            <li>
+                <a href="#">Press Inquiries</a>
+            </li>
+            <li>
+                <a href="#">Careers</a>
+            </li>
+            <li>
+                <a href="#">Newsroom</a>
+            </li>
+            <li>
+                <a href="#">Newegg Blog</a>
+            </li>
+        </ul>
+    </div>
+</footer>
+<script>
+
+function toggleDropdown() {
+  var dropdownMenu = document.getElementById("dropdown-menu");
+  if (dropdownMenu.style.display === "block") {
+    dropdownMenu.style.display = "none";
+  } else {
+    dropdownMenu.style.display = "block";
+  }
+}
+function toggleDropdown2() {
+  var dropdownMenu = document.getElementById("dropdown-menu2");
+  if (dropdownMenu.style.display === "block") {
+    dropdownMenu.style.display = "none";
+  } else {
+    dropdownMenu.style.display = "block";
+  }
+}
+
+											<!--  $(document).ready(function() {-->
+											<!--    $('.btn-minus').click(function() {-->
+											<!--      var productId = $(this).data('product-id');-->
+											<!--      var countEl = $(this).next('.product-count');-->
+											<!--      var count = parseInt(countEl.text());-->
+											<!--      if (count > 0) {-->
+											<!--        count -= 1;-->
+											<!--        updateShoppingCart(productId, count);-->
+											<!--        countEl.text(count);-->
+											<!--      }-->
+											<!--    });-->
+											<!--    $('.btn-plus').click(function() {-->
+											<!--      var productId = $(this).data('product-id');-->
+											<!--      var countEl = $(this).prev('.product-count');-->
+											<!--      var count = parseInt(countEl.text());-->
+											<!--      count += 1;-->
+											<!--      updateShoppingCart(productId, count);-->
+											<!--      countEl.text(count);-->
+											<!--    });-->
+											<!--    function updateShoppingCart(productId, count) {-->
+											<!--      $.ajax({-->
+											<!--        type: 'GET',-->
+											<!--        url: '/shoppingcart',-->
+											<!--        data: {productId: productId, count: count},-->
+											<!--        success: function(data) {-->
+											<!--          console.log(data);-->
+											<!--        },-->
+											<!--        error: function(xhr, status, error) {-->
+											<!--          console.log('Error updating cart: ' + error);-->
+											<!--        }-->
+											<!--      });-->
+											<!--    }-->
+											<!--  });-->
+
+
+
+let itemCount = 0;
+
+
+
+
+const addToCartButtons = document.querySelectorAll('.cart2');
+const cartIcon = document.querySelector('#cart-icon');
+
+function handleAddToCartClick(event) {
+  // Check if the button has already been clicked
+  if (!event.target.classList.contains('clicked')) {
+    // Add the clicked class to the button
+    event.target.classList.add('clicked');
+    // Increment the item count
+
+											<!--    itemCount++;-->
+											<!--    // Update the text content of the icon with the current count-->
+											<!--    cartIcon.textContent = itemCount;-->
+    var productIdValue = $(this).siblings("input[name='productId']").val();
+    var price = $(this).siblings("input[name='price']").val();
+    var name =  $(this).siblings("input[name='productName']").val();
+
+    var count = 1;
+
+     $.ajax({
+        type: 'GET',
+        url: '/shoppingcart/Update',
+        data: {productId: productIdValue,productName:name,price: price,count: count},
+        dataType: "text",
+        success: function(response) {
+
+        console.log(response)
+          // Update the cart count with the response data
+          $(".item-count").text(response);
+        },
+        error: function(xhr, status, error) {
+          console.log("Error: " + error);
+        }
+      });
+
+
+  }
+}
+
+
+// Loop through all the elements in the NodeList and add a click event listener to each one
+for (let i = 0; i < addToCartButtons.length; i++) {
+  addToCartButtons[i].addEventListener('click', handleAddToCartClick);
+}
+
+</script>
+</body>
+</html>

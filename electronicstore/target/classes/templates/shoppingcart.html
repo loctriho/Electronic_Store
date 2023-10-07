@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Electronic Online Store</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+/* General styles */
+
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.menu2 {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.menu li {
+    margin-right: 20px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    display: block;
+}
+
+
+header {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.menu-icon {
+    font-size: 1.5rem;
+    color: #fff;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.menu {
+    display: none;
+    list-style: none;
+}
+
+.menu li {
+    margin-bottom: 10px;
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.search-form {
+    margin-right: 20px;
+}
+
+.search-form input[type="text"] {
+    border: none;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 1rem;
+}
+
+.search-form button[type="submit"] {
+    border: none;
+    background-color: transparent;
+    font-size: 1.2rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.login,
+.register,
+.cart {
+    font-size: 1.2rem;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.cart i {
+    font-size: 1.5rem;
+}
+
+/* Main styles */
+
+main {
+    margin: 20px;
+}
+
+.feature,
+.deal {
+    margin-bottom: 30px;
+}
+
+.feature h2,
+.deal h2 {
+    margin-bottom: 20px;
+}
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product {
+    flex-basis: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+}
+
+.product h3 {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.product p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.product button {
+    border: none;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.product button:hover {
+    background-color: #555;
+}
+
+/* Footer styles */
+
+footer {
+    background-color: #eee;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer_info h4,
+.my-account h4 {
+    margin-bottom: 10px;
+}
+
+.footer_info ul,
+.my-account ul {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.footer_info a,
+.my-account a {
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.footer_info a:hover,
+.my-account a:hover {
+    text-decoration: underline;
+}
+
+
+
+.menu-container {
+  position: relative;
+  display: inline-block;
+}
+
+.menu-icon {
+  font-size: 24px;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.menu2 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  min-width: 160px;
+  padding: 8px 0;
+  margin: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  list-style: none;
+  text-align: left;
+  font-size: 14px;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 8px 16px;
+  text-decoration: none;
+  color: #333;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #f4f4f4;
+}
+
+.discounted-price {
+  text-decoration: line-through;
+  color: red;
+}
+
+.success-message {
+    background-color: #d4edda; /* a light green color */
+    border: 1px solid #c3e6cb; /* a slightly darker green color for the border */
+    padding: 10px; /* some padding around the message */
+    border-radius: 5px; /* rounded corners for the div */
+    margin-bottom: 20px; /* some space between this message and the next one */
+    text-align:center
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+input[type="number"] {
+    width: 60px;
+    text-align: center;
+}
+
+.btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #555;
+    color: white;
+}
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-left">
+        <a href="#" class="logo">Electronic Store</a>
+        <div class="menu-container">
+            <div class="menu-icon" onclick="toggleDropdown()">&#9776;</div>
+            <ul class="menu2" id="menu2">
+                <li class="dropdown">
+                    <ul class="dropdown-menu" id="dropdown-menu">
+                        <!-- Thymeleaf code to dynamically generate list items -->
+                        <li th:each="category : ${categories}">
+                            <a th:href="@{/home(category_name=${category.category_name}, category_id=${category.category_id})}">
+                                <span th:text="${category.category_name}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="header-right">
+        <form class="search-form">
+            <input type="text" placeholder="Search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+
+        <!-- Check if user is authenticated -->
+        <span th:if="${#httpServletRequest.userPrincipal != null}">
+        <span th:text="${#httpServletRequest.userPrincipal.name}"></span>
+        <a th:href="@{/logout}" class="login">Logout</a>
+    </span>
+        <!-- If user is not authenticated, display login and register links -->
+        <span th:if="${#httpServletRequest.userPrincipal == null}">
+        <a th:href="@{/login}" class="login">Login</a>
+        <a th:href="@{/register}" class="register">Register</a>
+    </span>
+        <a href="#" class="cart"><i class="fa fa-shopping-cart"></i></a>
+    </div>
+
+</header>
+<main>
+    <div class="container">
+        <h1 class="mb-4">Shopping Cart</h1>
+
+        <h3 th:if="${#lists.isEmpty(products)}" class="text-center text-muted">Your cart is empty!</h3>
+
+        <div th:unless="${#lists.isEmpty(products)}">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')}"></td>
+                    <td>
+                        <form th:object="${product}" th:action="@{/shoppingcart/update-cart}" method="post">
+                            <input type="hidden" name="productId" th:value="${product.productId}" />
+                            <input type="number" name="quantity" th:value="${product.quantity}" min="0"  />
+                            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+                        </form>
+                    </td>
+                    <td th:if="${product.quantity > 0}" th:text="${#numbers.formatDecimal(product.price * product.quantity, 0, 'COMMA', 2, 'POINT')}"></td>
+                    <td th:unless="${product.quantity > 0}">-</td>
+                </tr>
+                </tbody>
+            </table>
+            <h2>Total Amount:
+                <p th:text="${totalAmount}"></p>
+
+            </h2>
+        </div>
+    </div>
+
+
+
+    <!-- Checkout button -->
+    <form th:action="@{/shoppingcart/checkout}" method="get">
+        <button type="submit">Checkout</button>
+    </form>
+</main>
+<footer>
+    <div class="footer_info customer-service">
+        <h4>CUSTOMER SERVICE</h4>
+        <ul>
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Track an Order</a></li>
+            <li><a href="#">Return an Item</a></li>
+            <li><a href="#">Return Policy</a></li>
+            <li><a href="#">Privacy & Security</a></li>
+            <li><a href="#">Feedback</a></li>
+        </ul>
+    </div>
+    <div class="footer_info my-account">
+        <h4>MY ACCOUNT</h4>
+        <ul>
+            <li><a href="#">Login/Register</a></li>
+            <li><a href="#">Order History</a></li>
+            <li><a href="#">Returns History</a></li>
+            <li><a href="#">Address Book</a></li>
+            <li><a href="#">Wish Lists</a></li>
+            <li><a href="#">My Build Lists</a></li>
+            <li><a href="#">Email Notifications</a></li>
+            <li><a href="#">Subscriptions Orders</a></li>
+            <li><a href="#">Auto Notifications</a></li>
+        </ul>
+    </div>
+    <div class="footer_info company-info">
+        <h4>COMPANY INFORMATION</h4>
+        <ul>
+            <li><a href="#">About Newegg</a></li>
+            <li><a href="#">Awards/Rankings</a></li>
+            <li><a href="#">Hours and Locations</a></li>
+            <li><a href="#">Press Inquiries</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Newsroom</a></li>
+            <li><a href="#">Newegg Blog</a></li>
+        </ul>
+    </div>
+</footer>
+
+<script>
+
+function toggleDropdown() {
+  var dropdownMenu = document.getElementById("dropdown-menu");
+  if (dropdownMenu.style.display === "block") {
+    dropdownMenu.style.display = "none";
+  } else {
+    dropdownMenu.style.display = "block";
+  }
+}
+
+
+</script>
+</body>
+</html>
