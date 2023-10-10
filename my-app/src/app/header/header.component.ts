@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Renderer2, ViewChild, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, ElementRef, Renderer2, ViewChild, EventEmitter, Output, Input, HostListener } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavigationEnd, Router } from '@angular/router';
 import { Category } from '../models/category.model';
@@ -31,8 +31,9 @@ export class HeaderComponent implements OnInit {
   @Output() hideProductList: EventEmitter<void> = new EventEmitter<void>();
   @Output() showProductList: EventEmitter<void> = new EventEmitter<void>();
 
+  @ViewChild('dropdown', { static: true }) dropdown!: ElementRef;
+  @ViewChild('menuIcon', { static: true }) menuIcon!: ElementRef;
 
-  @ViewChild('dropdown') dropdown!: ElementRef;
   username: string | null = null;
   password: string | null = null;
   public categories: string[] = [];
@@ -92,17 +93,38 @@ export class HeaderComponent implements OnInit {
 }
 isMenuDisplayed = false;
 
-toggleMenu() {
-  this.isMenuDisplayed = !this.isMenuDisplayed;
+toggleMenu(event?: MouseEvent): void {
+  if (event) {
+    if (this.menuIcon.nativeElement.contains(event.target)) {
+      // Toggle the menu display when clicking on the menu icon.
+      this.isMenuDisplayed = !this.isMenuDisplayed;
+    } else if (this.isMenuDisplayed === true) {
+      // Close the menu when clicking outside and the menu is displayed.
+      this.isMenuDisplayed = false;
+    }
+  }
 }
+
+
+@HostListener('document:click', ['$event'])
+handleClick(event: MouseEvent): void {
+  this.toggleMenu(event);
+}
+
+
+
+
+
+
+
 
   logout(): void {
     const token = this.getCSRFToken();
     
     if (token) {
-      const username = 'tayho';
-      const password = 'kkkkkk';
-      const basicAuth = 'Basic ' + btoa(username + ':' + password);
+       this.username = localStorage.getItem('username');
+      this.password = localStorage.getItem('password');
+      const basicAuth = 'Basic ' + btoa(this.username+ ':' + this.password);
   
       const headers = new HttpHeaders({
         'x-csrf-token': token,

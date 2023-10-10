@@ -6,12 +6,12 @@
   </div> 
   &nbsp;
   <div style="display:inline-block">
-    <span (click)="toggleMenu()">  
+    <span #menuIcon >  
       <img id="menu_icon" src="assets/images/menu_icon.png" alt="Menu Icon">
     </span>
   </div>
   
-  <div style="display:inline-block" *ngIf="isMenuDisplayed" class="dropdown-content">
+  <div #dropdown style="display:inline-block" *ngIf="isMenuDisplayed" class="dropdown-content">
     <ul>
       <li (click)="onCategorySelected(category)" *ngFor="let category of categories">
         {{ category }}
@@ -27,14 +27,10 @@
       <li *ngIf="!username"><a routerLink="/login" (click)="onLoginClicked()">Login</a></li>
       <li *ngIf="!username"><a routerLink="/register" (click)="onHideProductList()">Register</a></li>
       <li *ngIf="username"><a href="#">Welcome, {{ username }}</a></li>
-      <!-- Account link added here -->
       <li *ngIf="username"><a (click)="logout()">Log Out</a></li>
       <li><a routerLink="/cart" (click)="onHideProductList()"><img src="assets/images/cart.png" alt="Shopping Cart"></a></li>
       <span class="cart-item-count">{{ cartItemCount }}</span>
       <li *ngIf="username"><a routerLink="/account">Account</a></li>
-
     </ul>
   </nav>
 </div>
-
-
