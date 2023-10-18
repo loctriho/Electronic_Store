@@ -50,12 +50,19 @@ removeProduct(product: Product): void {
     return this.cart.length;
   }
 
+  alertProductQuantities(): number {
+
+    return this.getTotalPrice();
+  }
   getTotalPrice(): number {
     let total = this.cart.reduce((total, product) => total + (product.price * this.getQuantity(product)), 0);
-    return this.roundDownPipe.transform(total);
+    return  this.roundToTwoDecimalPlaces(total);
+
   }
   
-
+  roundToTwoDecimalPlaces(num: number): number {
+    return Math.round(num * 100) / 100;
+  }
   clearCart(): void {
     this.cart = [];
     this.cartQuantities = {};

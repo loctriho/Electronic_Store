@@ -46,7 +46,7 @@ export class CartComponent implements OnInit {
     return this.cartService.getQuantity(product);
   }
   getTotalPrice(): number {
-    return this.cartService.getTotalPrice();
+    return this.cartService.alertProductQuantities();
     
   }
 }
