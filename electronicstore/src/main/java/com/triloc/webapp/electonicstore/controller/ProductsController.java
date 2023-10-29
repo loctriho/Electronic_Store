@@ -4,6 +4,7 @@ import com.triloc.webapp.electonicstore.dto.ItemsOrder;
 import com.triloc.webapp.electonicstore.dto.ProductDTO;
 import com.triloc.webapp.electonicstore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,11 +24,12 @@ public class ProductsController {
     ProductRepository productRepository;
 
     @GetMapping
+    @Cacheable(value = "productsCache")
     public @ResponseBody List<ProductDTO> getProducts(@RequestParam(value = "category", required = false) String category,
                                                       @RequestParam(defaultValue = "0") int page
                                                      ) {
         Pageable pageable = PageRequest.of(page, 10);
-
+        System.out.println("XXX");
         if (category != null) {
             return productRepository.getProductsByCategoryName(category, pageable).get().collect(Collectors.toList());
         } else {

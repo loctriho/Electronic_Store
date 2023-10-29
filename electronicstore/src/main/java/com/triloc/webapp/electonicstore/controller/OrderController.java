@@ -10,6 +10,7 @@ import com.triloc.webapp.electonicstore.repository.ProductRepository;
 import com.triloc.webapp.electonicstore.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,9 @@ public class OrderController {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+
+
+
 
     @Autowired
     public OrderController(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository) {
