@@ -1,0 +1,119 @@
+<div class="container">
+  <!-- This is the sidebar -->
+  <div class="sidebar">
+    <ul class="sidebar-menu">
+      <li><a (click)="displaySection('personal-info')">Personal Info</a></li>
+      <li><a (click)="displaySection('change-password')">Change Password</a></li>
+      <li><a (click)="displaySection('past-orders'); loadPastOrders()">Past Orders</a></li>
+    </ul>
+  </div>
+  <h4 style="margin-left:50%">{{ selectedSection }}</h4>
+
+  <!-- This is the main content area -->
+  <div class="main-content">
+    <br><br>
+    <!-- Personal Info Form -->
+    
+    <form [formGroup]="personalInfoForm" *ngIf="showPersonalInfo">
+      <p *ngIf="successMessage">{{ successMessage }}</p>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" formControlName="username" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="first_name" formControlName="first_name" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="last_name" formControlName="last_name" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control" />
+      </div>
+      <!-- Address Info -->
+      <div formGroupName="address">
+        <div class="form-group">
+          <label for="city">City</label>
+          <input type="text" id="city" formControlName="city" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="street">Street</label>
+          <input type="text" id="street" formControlName="street" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="apartment">Apartment</label>
+          <input type="text" id="apartment" formControlName="apartment" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="state">State</label>
+          <input type="text" id="state" formControlName="state" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="zipCode">Zip Code</label>
+          <input type="text" id="zipCode" formControlName="zipCode" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary" (click)="onSubmitPersonalInfo()">Update Info</button>
+      </div>
+    </form>
+
+    <!-- Change Password Form -->
+    <div *ngIf="showChangePassword">
+      <p *ngIf="passwordUpdateMessage">{{ passwordUpdateMessage }}</p>
+      <form [formGroup]="changePasswordForm">
+        <div class="form-group">
+          <label for="oldPassword">Old Password</label>
+          <input type="password" id="oldPassword" formControlName="oldPassword" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input type="password" id="newPassword" formControlName="newPassword" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" formControlName="confirmPassword" class="form-control" />
+          <p *ngIf="changePasswordForm.hasError('mismatch') && changePasswordForm.get('confirmPassword')?.dirty">
+            The passwords do not match.
+          </p>
+          <!-- Check for the 'minlength' error on the newPassword form control -->
+          <p *ngIf="changePasswordForm.get('newPassword')?.hasError('minlength') && changePasswordForm.get('newPassword')?.dirty">
+            Sorry, the minimum length of the password is 8.
+          </p>
+        </div>
+        
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" (click)="onChangePassword()">Change Password</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Past Orders Section -->
+    <div *ngIf="showPastOrders">
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th style="border: 1px solid black; padding: 8px;">OrderItemId</th>
+            <th style="border: 1px solid black; padding: 8px;">OrderID</th>
+            <th style="border: 1px solid black; padding: 8px;">Name</th>
+            <th style="border: 1px solid black; padding: 8px;">Price</th>
+            <th style="border: 1px solid black; padding: 8px;">Item Quantity</th>
+            <th style="border: 1px solid black; padding: 8px;">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of pastOrders">
+            <td style="border: 1px solid black; padding: 8px;">{{order.id}}</td>
+            <td style="border: 1px solid black; padding: 8px;">{{order.orderId}}</td>
+            <td style="border: 1px solid black; padding: 8px;">{{order.name}}</td>
+            <td style="border: 1px solid black; padding: 8px;">{{order.price}}</td>
+            <td style="border: 1px solid black; padding: 8px;">{{order.quantity}}</td>
+            <td style="border: 1px solid black; padding: 8px;">{{order.date}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
