@@ -21,7 +21,7 @@
       <!-- First Name -->
       <div class="form-group">
           <label for="firstName">First Name</label>
-          <input id="firstName" type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && registerForm.get('firstName')?.invalid }" />
+          <input id="firstName" type="text" formControlName="first_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && registerForm.get('firstName')?.invalid }" />
           <div *ngIf="submitted && registerForm.get('firstName')?.invalid" class="invalid-feedback">
               <div *ngIf="registerForm.get('firstName')?.errors?.['required']">First Name is required</div>
           </div>
@@ -29,7 +29,7 @@
       <!-- Last Name -->
       <div class="form-group">
           <label for="lastName">Last Name</label>
-          <input id="lastName" type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && registerForm.get('lastName')?.invalid }" />
+          <input id="lastName" type="text" formControlName="last_name" class="form-control" [ngClass]="{ 'is-invalid': submitted && registerForm.get('lastName')?.invalid }" />
           <div *ngIf="submitted && registerForm.get('lastName')?.invalid" class="invalid-feedback">
               <div *ngIf="registerForm.get('lastName')?.errors?.['required']">Last Name is required</div>
           </div>
