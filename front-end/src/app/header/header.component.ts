@@ -17,6 +17,8 @@ export class HeaderComponent implements OnInit {
 
   @Output() loginClicked: EventEmitter<void> = new EventEmitter<void>();
   @Output() loginCompleted: EventEmitter<void> = new EventEmitter<void>();
+  searchQuery: string = '';
+
 
   onLoginCompleted(): void {
     this.loginCompleted.emit();
@@ -81,6 +83,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onCategorySelected(category: string): void {
+    this.searchQuery = '';
     this.router.navigate(['/']);
 
     this.selectedCategory = category;
@@ -116,7 +119,25 @@ handleClick(event: MouseEvent): void {
 
 
 
+ 
+private createHeaders(): HttpHeaders {
+  const csrfToken = this.getCSRFToken();
+  const username = localStorage.getItem('username');
+  const password = localStorage.getItem('password');
 
+  let headers = new HttpHeaders();
+  if(csrfToken) {
+    headers = headers.append('x-csrf-token', csrfToken);
+  }
+
+
+
+  return headers;
+}
+
+private getCSRFToken(): string | null {
+  return localStorage.getItem('csrfToken');
+}
 
 
 
@@ -162,9 +183,11 @@ handleClick(event: MouseEvent): void {
 
   returnToHomePage():void{
     this.productService.setSelectedCategory("All");
+    this.productService.setSearchQuery('');
+    this.searchQuery = '';
+
     this.router.navigate(['/']);
 
-    this.showProductList.emit();
     
   }
 
@@ -172,23 +195,21 @@ handleClick(event: MouseEvent): void {
 
 
 
-  
-  private createHeaders(): HttpHeaders {
-    const csrfToken = this.getCSRFToken();
-    const username = localStorage.getItem('username');
-    const password = localStorage.getItem('password');
-
-    let headers = new HttpHeaders();
-    if(csrfToken) {
-      headers = headers.append('x-csrf-token', csrfToken);
-    }
-
  
 
-    return headers;
-  }
+  onSearch(): void {
+    if (this.searchQuery === '') {
+      // The search query is empty, perform the necessary action
+      // For example, you might want to reset a filtered product list to show all products
+      this.productService.setSelectedCategory("All");
+      this.productService.setSearchQuery('');
+      this.productService.clearProductList();
+      return;
+    }
+    // Update the search query in ProductService
+    this.productService.setSearchQuery(this.searchQuery);
 
-  private getCSRFToken(): string | null {
-    return localStorage.getItem('csrfToken');
+    // Optionally, navigate to a specific route if needed
+    // this.router.navigate(['/some-search-route']);
   }
 }

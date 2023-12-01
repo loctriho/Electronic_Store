@@ -75,4 +75,18 @@ public class ProductDTO {
     public void setManufacturerName(String manufacturerName) {
         this.manufacturerName = manufacturerName;
     }
+
+
+    @Override
+    public String toString() {
+        return "ProductDTO{" +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", categoryName='" + categoryName + '\'' +
+                ", manufacturerName='" + manufacturerName + '\'' +
+                '}';
+    }
 }

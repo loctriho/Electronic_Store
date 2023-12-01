@@ -1,12 +1,17 @@
 package com.triloc.webapp.electonicstore;
 
+import com.triloc.webapp.electonicstore.dto.ProductDTO;
 import com.triloc.webapp.electonicstore.model.Order;
+import com.triloc.webapp.electonicstore.model.Product;
 import com.triloc.webapp.electonicstore.repository.OrderRepository;
+import com.triloc.webapp.electonicstore.service.ProductSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
 import java.util.ArrayList;
@@ -61,4 +66,14 @@ public class ElectronicstoreApplication {
 //	public List<Order> getAllOrders() {
 //		return orderRepository.findAll();
 //	}
+//		@Bean
+//		public CommandLineRunner demo(ProductSearchService productSearchService) {
+//			return (args) -> {
+//				// Test the search functionality
+//				String searchTerm = "Play"; // Replace with your test search term
+//				List<ProductDTO> searchResults = productSearchService.search(searchTerm);
+//
+//				System.out.println(searchResults);
+//			};
+//		}
 }

@@ -40,7 +40,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT COUNT(p) FROM Product p WHERE p.category.category_name = :categoryName")
     Long countByCategoryName(@Param("categoryName") String categoryName);
-
+    @Query("SELECT new com.triloc.webapp.electonicstore.dto.ProductDTO(p.product_id, p.product_name, p.description, p.price, p.image, c.category_name, m.manufacturer_name) FROM Product p JOIN p.category c JOIN p.manufacturer m WHERE p.product_id IN :ids")
+    List<ProductDTO> getProductDTOs(@Param("ids") List<Long> productIds);
 
 
 }

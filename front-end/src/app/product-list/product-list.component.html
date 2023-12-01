@@ -1,4 +1,18 @@
 <h2 *ngIf="currentCategory !== 'All'"> {{ currentCategory }}</h2>
+<p>Price:</p>
+<div>
+  <div>
+    <input type="radio" id="ASC" name="price" value="Increasing" (change)="sortProducts('ASC')" />
+    <label for="ASC">Highest</label>
+  </div>
+
+  <div>
+    <input type="radio" id="DSC" name="price" value="Decreasing" (change)="sortProducts('DSC')" />
+    <label for="DSC">Lowest</label>
+  </div>
+</div>
+
+
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between;">
   <div style="flex: 0 0 calc(33.333% - 20px); box-sizing: border-box; margin: 10px; background: #f9f9f9; padding: 20px; border: 1px solid #ddd; border-radius: 5px;" *ngFor="let product of products">

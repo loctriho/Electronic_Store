@@ -57,7 +57,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .antMatchers(HttpMethod.GET, "/products").permitAll()
                 .antMatchers(HttpMethod.GET, "/products/*").permitAll()
+
                 .antMatchers("/products/**/count").permitAll()
+                .antMatchers("/products/search/*").permitAll()
 
                 .antMatchers(HttpMethod.POST, "/checkCR").permitAll()  // Exemption for POST /register
                 .antMatchers("/categories/**").permitAll()  // Exemption for /categories

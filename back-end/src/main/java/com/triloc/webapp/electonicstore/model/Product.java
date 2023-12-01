@@ -1,19 +1,25 @@
 package com.triloc.webapp.electonicstore.model;
 
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
+@Indexed
 @Table(name = "Product")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long product_id;
 
+    @FullTextField
     private String product_name;
 
     @Lob
     @Column(columnDefinition = "TEXT")
+    @FullTextField
     private String description;
 
     private double price;
@@ -85,5 +91,18 @@ public class Product {
 
     public void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "product_id=" + product_id +
+                ", product_name='" + product_name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", category=" + category +
+                ", manufacturer=" + manufacturer +
+                '}';
     }
 }
