@@ -30,6 +30,8 @@ public class ElectronicstoreApplication {
 //	private OrderRepository orderRepository;
 
 	public static void main(String[] args) {
+
+
 		SpringApplication.run(ElectronicstoreApplication.class, args);
 	}
 //

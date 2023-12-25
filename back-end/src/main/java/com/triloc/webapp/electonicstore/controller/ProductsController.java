@@ -34,6 +34,7 @@ public class ProductsController {
     @Autowired
     ProductSearchService productSearchService;
 
+
     @GetMapping
     @Cacheable(value = "productsCache")
     public @ResponseBody List<ProductDTO> getProducts(@RequestParam(value = "category", required = false) String category,
