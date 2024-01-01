@@ -1,4 +1,7 @@
-
+<h2>Stock name</h2>
+<p>{{stock}}</p>
+<input type="text" #messageInput placeholder="Enter message">
+<button (click)="sendMessage(messageInput.value)">Send Message</button>
 <app-header (hideProductList)="onHideProductList()"  (showProductList)="onShowProductList()" (userLoggedIn)="checkUserLoggedIn()"  (loginClicked)="onLoginClicked()"></app-header>
 <app-product-list *ngIf="showProductList"></app-product-list>
 <router-outlet></router-outlet>

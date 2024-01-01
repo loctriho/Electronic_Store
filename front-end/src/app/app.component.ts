@@ -8,8 +8,19 @@ import { Component } from '@angular/core';
 export class AppComponent {
 
   refreshHeader2: boolean = false;
+  title = 'WebSocketClient';
+  stock?: string;
+ 
+  private webSocket: WebSocket;
 
   
+  constructor() {
+    this.webSocket = new WebSocket('ws://localhost:8080/stocks');
+    this.webSocket.onmessage = (event) => {
+      this.stock = event.data
+      console.log(event.data);
+    };
+  } 
   showHeader: boolean = true;
   showProductList: boolean = true;
 
@@ -18,6 +29,10 @@ export class AppComponent {
     // ...existing code...
 
   }
+  sendMessage(message: string): void {
+    this.webSocket.send(message);
+  }
+  
 
 
   refreshHeader(): void {

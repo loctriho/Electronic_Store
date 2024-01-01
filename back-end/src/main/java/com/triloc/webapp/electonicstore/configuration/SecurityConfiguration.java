@@ -31,45 +31,42 @@ import java.util.regex.Pattern;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
-
     @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
 
-        http     .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .antMatchers(HttpMethod.GET, "/products").permitAll()
                 .antMatchers(HttpMethod.GET, "/products/*").permitAll()
+                .antMatchers(HttpMethod.GET, "/send-stock").permitAll()
 
+                .antMatchers("/stocks").permitAll()  // Allow WebSocket endpoint
                 .antMatchers("/products/**/count").permitAll()
                 .antMatchers("/products/search/*").permitAll()
 
-                .antMatchers(HttpMethod.POST, "/checkCR").permitAll()  // Exemption for POST /register
-                .antMatchers("/categories/**").permitAll()  // Exemption for /categories
+                .antMatchers(HttpMethod.POST, "/checkCR").permitAll()
+                .antMatchers("/categories/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                 .and()
                 .csrf()
-                .ignoringAntMatchers("/login","/register","/checkCR")
+                .ignoringAntMatchers("/login","/register","/checkCR")  // Disable CSRF for WebSocket endpoint
                 .and()
                 .cors()
                 .configurationSource(corsConfigurationSource())
@@ -82,21 +79,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logoutSuccessHandler((request, response, authentication) -> {
                     response.setStatus(HttpServletResponse.SC_OK);
                 });
-
-
-
     }
-    public class CsrfSecurityRequestMatcher implements RequestMatcher {
-        private Pattern allowedMethods = Pattern.compile("^(GET|HEAD|TRACE|OPTIONS)$");
-        private AntPathRequestMatcher unprotectedMatcher = new AntPathRequestMatcher("/user/login");
 
-
-
-        @Override
-        public boolean matches(HttpServletRequest request) {
-            return false;
-        }
-    }
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
@@ -108,7 +92,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
     @Bean
     public SimpleUrlAuthenticationSuccessHandler successHandler(){
         SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
@@ -118,17 +101,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // no wildcards allowed here
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200","http://localhost:65222"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
-
-        configuration.setAllowCredentials(true); // allows sending of cookies
-
-        // Add headers to allowed headers list
+        configuration.setAllowCredentials(true);
         configuration.addAllowedHeader("Authorization");
         configuration.addAllowedHeader("Cache-Control");
         configuration.addAllowedHeader("Content-Type");
-        configuration.addAllowedHeader("x-csrf-token"); // add x-csrf-token header to the list
-
+//        configuration.addAllowedHeader("Sec-WebSocket-Extensions");
+//        configuration.addAllowedHeader("Sec-WebSocket-Key");
+//        configuration.addAllowedHeader("Sec-WebSocket-Version");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -139,4 +120,3 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 }
-

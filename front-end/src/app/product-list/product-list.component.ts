@@ -16,6 +16,14 @@ import { FetchProductsByCategoryStrategy } from '../interface/FetchProductsByCat
 })
 export class ProductListComponent implements OnInit {
 
+  title = 'WebSocketClient';
+  stock?: string;
+ 
+  private webSocket: WebSocket;
+
+
+  
+
   apiURL = "http://localhost:8080/"
   currentPage = 1; // <-- Add this property here
   itemsPerPage = 10; // If you're also using itemsPerPage 
@@ -30,8 +38,17 @@ export class ProductListComponent implements OnInit {
   constructor(
     public productService: ProductService,
     private cartService: CartService,
-    private router: Router
-  ) { }
+    private router: Router,
+    
+  ) { 
+    this.webSocket = new WebSocket('ws://localhost:8080/stocks');
+    this.webSocket.onmessage = (event) => {
+      this.stock = event.data
+      console.log(event.data);
+    };
+
+
+  }
 
   
   ngOnInit(): void {
@@ -134,7 +151,9 @@ export class ProductListComponent implements OnInit {
       this.products = products;
     });
   }
-
+  sendMessage(message: string): void {
+    this.webSocket.send(message);
+  }
   
 }
   
